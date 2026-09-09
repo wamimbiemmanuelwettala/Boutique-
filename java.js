@@ -2,8 +2,8 @@
 // CONFIGURATION
 // ==========================================
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzmCmPbPPUuMpCJzjH7omGayFy06WwO0E3eT8TUcw8tfrNzw02tctNhzgoTV4_fRZV0/exec";
-const MTN_MERCHANT_CODE = "123456";
-const AIRTEL_MERCHANT_CODE = "789101";
+const MTN_MERCHANT_CODE = "0786408437";
+const AIRTEL_MERCHANT_CODE = "0757754559";
 const BOUTIQUE_WHATSAPP = "256757754559";
 const CART_STORAGE_KEY = "jireh_boutique_cart";
 const ORDER_MAX_RETRIES = 3;
@@ -542,8 +542,8 @@ function togglePaymentInstructions() {
         txnIdInput.setAttribute("required", "true");
         if (method === "MTN MoMo Pay") {
             instructionText.innerHTML = `
-                <strong>MTN MoMo Pay Steps:</strong><br>
-                1. Dial *165*3#<br>
+                <strong>MTN Mobile money:</strong><br>
+                1. Dial *165*1#<br>
                 2. Enter Merchant Code: <strong>${MTN_MERCHANT_CODE}</strong>
                 <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Code</span><br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
@@ -551,8 +551,8 @@ function togglePaymentInstructions() {
             `;
         } else if (method === "Airtel Merchant") {
             instructionText.innerHTML = `
-                <strong>Airtel Merchant Steps:</strong><br>
-                1. Dial *185*4#<br>
+                <strong>Airtel Money Steps:</strong><br>
+                1. Dial *185*1#<br>
                 2. Enter Merchant Code: <strong>${AIRTEL_MERCHANT_CODE}</strong>
                 <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${AIRTEL_MERCHANT_CODE}', 'copyCodeBtn')">Copy Code</span><br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
