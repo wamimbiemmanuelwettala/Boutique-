@@ -658,7 +658,7 @@ function togglePaymentInstructions() {
                 <strong>MTN Money Steps:</strong><br>
                 1. Dial *165*1#<br>
                 2. Enter MTN Money Number: <strong>${MTN_MERCHANT_CODE}</strong>
-                <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Code</span><br>
+                <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Number</span><br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
                 <span id="copyAmtBtn" class="copy-item" onclick="copyToClipboard('${selectedPrice}', 'copyAmtBtn')">Copy Amount</span>
             `;
@@ -667,7 +667,7 @@ function togglePaymentInstructions() {
                 <strong>Airtel Money Steps:</strong><br>
                 1. Dial *185*1#<br>
                 2. Enter Airtel Money Number: <strong>${AIRTEL_MERCHANT_CODE}</strong>
-                <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${AIRTEL_MERCHANT_CODE}', 'copyCodeBtn')">Copy Code</span><br>
+                <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${AIRTEL_MERCHANT_CODE}', 'copyCodeBtn')">Copy Number</span><br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
                 <span id="copyAmtBtn" class="copy-item" onclick="copyToClipboard('${selectedPrice}', 'copyAmtBtn')">Copy Amount</span>
             `;
