@@ -1,9 +1,9 @@
 // ==========================================
 // CONFIGURATION
 // ==========================================
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzmCmPbPPUuMpCJzjH7omGayFy06WwO0E3eT8TUcw8tfrNzw02tctNhzgoTV4_fRZV0/exec";
-const MTN_MERCHANT_CODE = "0786408437";
-const AIRTEL_MERCHANT_CODE = "0757754559";
+const WEB_APP_URL = "/api/gas";
+const MTN_MERCHANT_CODE = "123456";
+const AIRTEL_MERCHANT_CODE = "789101";
 const BOUTIQUE_WHATSAPP = "256757754559";
 const CART_STORAGE_KEY = "jireh_boutique_cart";
 const ORDER_MAX_RETRIES = 3;
@@ -225,12 +225,14 @@ function searchProducts(query) {
 // ==========================================
 // 4. PRODUCT DETAIL + SIMILAR
 // ==========================================
+// ==========================================
+// 4. PRODUCT DETAIL + RELATED (inside the card)
+// ==========================================
 function onProductTap(productKey) {
     const product = findProductByKey(productKey);
     if (!product) return;
     lastSelectedProduct = product;
-    openProductDetail(product);
-    showSimilarItems(product);
+    openProductDetail(product); // related items only inside this modal
 }
 
 function openProductDetail(product) {
@@ -240,15 +242,55 @@ function openProductDetail(product) {
     if (!modal || !body) return;
 
     const cleanPrice = Number(product.Price) || 0;
-    const isOutOfStock = product.Stock_Status && String(product.Stock_Status).toLowerCase() === "out of stock";
-    const imageUrl = product.Image_URL || "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=500&q=80";
+    const isOutOfStock =
+        product.Stock_Status &&
+        String(product.Stock_Status).toLowerCase() === "out of stock";
+    const imageUrl =
+        product.Image_URL ||
+        "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=500&q=80";
     const productKey = encodeURIComponent(product.Name + "|" + cleanPrice);
 
     if (title) title.textContent = product.Name;
 
+    const related = getRelatedProducts(product, 6);
+    const relatedHTML =
+        related.length === 0
+            ? ""
+            : `
+        <div class="detail-related">
+            <h4 class="detail-related-title">Related items</h4>
+            <p class="detail-related-hint">Similar fashion, pattern &amp; category</p>
+            <div class="detail-related-grid">
+                ${related
+                    .map((p) => {
+                        const price = Number(p.Price) || 0;
+                        const key = encodeURIComponent(p.Name + "|" + price);
+                        const img =
+                            p.Image_URL ||
+                            "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=500&q=80";
+                        return `
+                    <button type="button" class="detail-related-card" onclick="onProductTap('${key}')">
+                        <img src="${img}" alt="${escapeHtml(p.Name)}"
+                             onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=500&q=80'">
+                        <span class="detail-related-name">${escapeHtml(p.Name)}</span>
+                        <span class="detail-related-meta">${escapeHtml(
+                            [p.Category, p.Pattern, p.Fashion]
+                                .filter(Boolean)
+                                .join(" · ")
+                        )}</span>
+                        <span class="detail-related-price">UGX ${price.toLocaleString()}</span>
+                    </button>`;
+                    })
+                    .join("")}
+            </div>
+        </div>
+    `;
+
+    // IMPORTANT: relatedHTML is included at the end of the card
     body.innerHTML = `
         <div class="detail-layout">
-            <img class="detail-img" src="${imageUrl}" alt="${escapeHtml(product.Name)}" onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=500&q=80'">
+            <img class="detail-img" src="${imageUrl}" alt="${escapeHtml(product.Name)}"
+                 onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=500&q=80'">
             <div class="detail-info">
                 <p class="product-category">${escapeHtml(product.Category || "")}</p>
                 <p class="product-price">UGX ${cleanPrice.toLocaleString()}</p>
@@ -260,22 +302,84 @@ function openProductDetail(product) {
                     <li><strong>Stock:</strong> ${escapeHtml(product.Stock_Status || "In Stock")}</li>
                 </ul>
                 <div class="detail-actions">
-                    ${isOutOfStock
-                        ? `<button class="order-btn out-of-stock" disabled>Sold Out</button>`
-                        : `
-                            <button class="order-btn" onclick="closeProductDetail(); openOrderModal('${product.Name.replace(/'/g, "\\'")}', ${cleanPrice})">Order for Pickup</button>
-                            <button class="cart-add-btn" onclick="addToCartByKey('${productKey}'); showToast('Added', 'Item saved in your cart.', 'success')">Add to Cart</button>
-                          `}
+                    ${
+                        isOutOfStock
+                            ? `<button class="order-btn out-of-stock" disabled>Sold Out</button>`
+                            : `
+                        <button class="order-btn" onclick="closeProductDetail(); openOrderModal('${product.Name.replace(
+                            /'/g,
+                            "\\'"
+                        )}', ${cleanPrice})">Order for Pickup</button>
+                        <button class="cart-add-btn" onclick="addToCartByKey('${productKey}'); showToast('Added', 'Item saved in your cart.', 'success')">Add to Cart</button>
+                      `
+                    }
                 </div>
             </div>
         </div>
+        ${relatedHTML}
     `;
+
     modal.style.display = "flex";
 }
 
 function closeProductDetail() {
     const modal = document.getElementById("productDetailModal");
     if (modal) modal.style.display = "none";
+}
+
+/** Related by fashion, pattern, category */
+function getRelatedProducts(product, limit) {
+    limit = limit || 6;
+    const fashion = (product.Fashion || "").toString().toLowerCase().trim();
+    const pattern = (product.Pattern || "").toString().toLowerCase().trim();
+    const category = (product.Category || "").toString().toLowerCase().trim();
+
+    return allProducts
+        .filter((p) => p.Name !== product.Name)
+        .map((p) => {
+            let score = 0;
+            const pFashion = (p.Fashion || "").toString().toLowerCase().trim();
+            const pPattern = (p.Pattern || "").toString().toLowerCase().trim();
+            const pCat = (p.Category || "").toString().toLowerCase().trim();
+
+            if (fashion && pFashion) {
+                if (pFashion === fashion) score += 5;
+                else if (pFashion.includes(fashion) || fashion.includes(pFashion)) score += 3;
+            }
+            if (pattern && pPattern) {
+                if (pPattern === pattern) score += 5;
+                else if (pPattern.includes(pattern) || pattern.includes(pPattern)) score += 3;
+            }
+            if (category && pCat) {
+                if (pCat === category) score += 4;
+                else if (pCat.includes(category) || category.includes(pCat)) score += 2;
+            }
+            if (isSameGroup(category, pCat)) score += 2;
+
+            return { product: p, score };
+        })
+        .filter((x) => x.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, limit)
+        .map((x) => x.product);
+}
+
+function isSameGroup(catA, catB) {
+    const aClothes = CLOTHES_CATEGORIES.some((c) => catA.includes(c));
+    const bClothes = CLOTHES_CATEGORIES.some((c) => catB.includes(c));
+    if (aClothes && bClothes) return true;
+    if (catA.includes("shoe") && catB.includes("shoe")) return true;
+    if (
+        (catA.includes("bag") || catA.includes("accessor")) &&
+        (catB.includes("bag") || catB.includes("accessor"))
+    )
+        return true;
+    return false;
+}
+
+function closeSimilarSection() {
+    const section = document.getElementById("similarSection");
+    if (section) section.style.display = "none";
 }
 
 function showSimilarItems(product) {
@@ -302,10 +406,19 @@ function showSimilarItems(product) {
 
             if (size && pSize && (pSize === size || pSize.includes(size) || size.includes(pSize))) score += 3;
             if (color && pColor && (pColor === color || pColor.includes(color) || color.includes(pColor))) score += 3;
-            if (pattern && pPattern && (pPattern === pattern || pPattern.includes(pattern) || pattern.includes(pPattern))) score += 2;
-            if (fashion && pFashion && (pFashion === fashion || pFashion.includes(fashion))) score += 2;
-            if (category && pCat && (pCat === category || pCat.includes(category) || category.includes(pCat))) score += 1;
-            if (isSameGroup(category, pCat)) score += 1;
+            if (fashion && pFashion) {
+                if (pFashion === fashion) score += 5;
+                else if (pFashion.includes(fashion) || fashion.includes(pFashion)) score += 3;
+            }
+            if (pattern && pPattern) {
+                if (pPattern === pattern) score += 5;
+                else if (pPattern.includes(pattern) || pattern.includes(pPattern)) score += 3;
+            }
+            if (category && pCat) {
+                if (pCat === category) score += 4;
+                else if (pCat.includes(category) || category.includes(pCat)) score += 2;
+            }
+            if (isSameGroup(category, pCat)) score += 2;
             return { product: p, score };
         })
         .filter((x) => x.score > 0)
@@ -542,8 +655,8 @@ function togglePaymentInstructions() {
         txnIdInput.setAttribute("required", "true");
         if (method === "MTN MoMo Pay") {
             instructionText.innerHTML = `
-                <strong>MTN Mobile money:</strong><br>
-                1. Dial *165*1#<br>
+                <strong>MTN MoMo Pay Steps:</strong><br>
+                1. Dial *165*3#<br>
                 2. Enter Merchant Code: <strong>${MTN_MERCHANT_CODE}</strong>
                 <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Code</span><br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
@@ -551,8 +664,8 @@ function togglePaymentInstructions() {
             `;
         } else if (method === "Airtel Merchant") {
             instructionText.innerHTML = `
-                <strong>Airtel Money Steps:</strong><br>
-                1. Dial *185*1#<br>
+                <strong>Airtel Merchant Steps:</strong><br>
+                1. Dial *185*4#<br>
                 2. Enter Merchant Code: <strong>${AIRTEL_MERCHANT_CODE}</strong>
                 <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${AIRTEL_MERCHANT_CODE}', 'copyCodeBtn')">Copy Code</span><br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
