@@ -1,0 +1,6 @@
+[[redirects]]
+  from = "/api/gas"
+  to = "https://script.google.com/macros/s/AKfycbzmCmPbPPUuMpCJzjH7omGayFy06WwO0E3eT8TUcw8tfrNzw02tctNhzgoTV4_fRZV0/exec"
+  status = 200
+  force = true
+  headers = {X-From = "netlify"}
