@@ -59,24 +59,18 @@ async function fetchLiveProducts() {
 
     try {
         let data = [];
-        if (!WEB_APP_URL) {
-            data = getMockProducts();
-        } else {
-            const response = await fetch(WEB_APP_URL);
-            data = await response.json();
-            data = Array.isArray(data) ? data.map(normalizeProduct) : getMockProducts();
-        }
+        const response = await fetch(WEB_APP_URL);
+        data = await response.json();
+        data = Array.isArray(data) ? data.map(normalizeProduct);
+        
         allProducts = data;
         filteredProducts = data;
         if (loadingEl) loadingEl.style.display = "none";
         renderProducts(filteredProducts);
     } catch (error) {
         console.error(error);
-        allProducts = getMockProducts();
-        filteredProducts = allProducts;
         if (loadingEl) loadingEl.style.display = "none";
-        renderProducts(filteredProducts);
-        showToast("Offline mode", "Showing sample inventory.", "info");
+        showToast("No Internet, Please check Your Network");
     }
 }
 
@@ -852,22 +846,4 @@ function showToast(title, message, type = "info") {
         toast.style.transition = "all 0.3s ease";
         setTimeout(() => toast.remove(), 300);
     }, 4000);
-}
-
-// ==========================================
-// 9. MOCK DATA
-// ==========================================
-function getMockProducts() {
-    return [
-        { Name: "Floral Summer Dress", Price: "85000", Stock_Status: "In Stock", Category: "Dresses", Size: "M", Color: "Pink", Pattern: "Floral", Fashion: "Casual", Image_URL: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=500&q=80" },
-        { Name: "Classic Denim Jacket", Price: "120000", Stock_Status: "In Stock", Category: "Tops & Outerwear", Size: "L", Color: "Blue", Pattern: "Solid", Fashion: "Casual", Image_URL: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=500&q=80" },
-        { Name: "High-Waist Pleated Skirt", Price: "55000", Stock_Status: "Low Stock", Category: "Skirts", Size: "S", Color: "Black", Pattern: "Solid", Fashion: "Elegant", Image_URL: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=500&q=80" },
-        { Name: "Luxury Leather Handbag", Price: "180000", Stock_Status: "In Stock", Category: "Bags & Accessories", Size: "One Size", Color: "Brown", Pattern: "Solid", Fashion: "Luxury", Image_URL: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=500&q=80" },
-        { Name: "Elegant Casual Jumpsuit", Price: "95000", Stock_Status: "Out of Stock", Category: "Jumpsuits", Size: "M", Color: "Navy", Pattern: "Solid", Fashion: "Elegant", Image_URL: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=500&q=80" },
-        { Name: "Suede Ankle Boots", Price: "150000", Stock_Status: "In Stock", Category: "Shoes", Size: "38", Color: "Tan", Pattern: "Solid", Fashion: "Casual", Image_URL: "https://images.unsplash.com/photo-1535043934128-cf0b28d52f95?auto=format&fit=crop&w=500&q=80" },
-        { Name: "Rose Midi Dress", Price: "92000", Stock_Status: "In Stock", Category: "Dresses", Size: "M", Color: "Pink", Pattern: "Floral", Fashion: "Elegant", Image_URL: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=500&q=80" },
-        { Name: "Canvas Tote Bag", Price: "45000", Stock_Status: "In Stock", Category: "Bags", Size: "One Size", Color: "Beige", Pattern: "Solid", Fashion: "Casual", Image_URL: "https://images.unsplash.com/photo-1590874103328-eac38a67478a?auto=format&fit=crop&w=500&q=80" },
-        { Name: "Block Heel Sandals", Price: "78000", Stock_Status: "In Stock", Category: "Shoes", Size: "37", Color: "Black", Pattern: "Solid", Fashion: "Elegant", Image_URL: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=500&q=80" },
-        { Name: "Linen Wide Pants", Price: "68000", Stock_Status: "In Stock", Category: "Pants", Size: "M", Color: "Beige", Pattern: "Solid", Fashion: "Casual", Image_URL: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=500&q=80" }
-    ];
 }
