@@ -19,7 +19,7 @@ let selectedPrice = 0;
 let cart = [];
 let lastSelectedProduct = null;
 
-// ==========================================
+// =========================================
 // 1. INIT
 // ==========================================
 window.addEventListener("DOMContentLoaded", () => {
