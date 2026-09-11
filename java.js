@@ -1,7 +1,7 @@
 // ==========================================
 // CONFIGURATION
 // ==========================================
-const WEB_APP_URL = "/api/gas";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzmCmPbPPUuMpCJzjH7omGayFy06WwO0E3eT8TUcw8tfrNzw02tctNhzgoTV4_fRZV0/exec";
 const MTN_MERCHANT_CODE = "0786408437";
 const AIRTEL_MERCHANT_CODE = "0757754559";
 const BOUTIQUE_WHATSAPP = "256757754559";
