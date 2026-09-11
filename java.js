@@ -9,7 +9,7 @@ const CART_STORAGE_KEY = "jireh_boutique_cart";
 const ORDER_MAX_RETRIES = 3;
 const ORDER_RETRY_DELAY_MS = 1500;
 
-const CLOTHES_CATEGORIES = ["clothes", "dresses", "tops & outerwear", "skirts", "jumpsuits", "pants", "tops", "outerwear"];
+const CLOTHES_CATEGORIES = "Dress", "Others", "Skirt", "Jampsuits", "Pants", "Tops",];
 
 let allProducts = [];
 let filteredProducts = [];
@@ -222,10 +222,6 @@ function searchProducts(query) {
     applyFilters(query);
 }
 
-// ==========================================
-// 4. PRODUCT DETAIL + SIMILAR
-// ==========================================
-// ==========================================
 // 4. PRODUCT DETAIL + RELATED (inside the card)
 // ==========================================
 function onProductTap(productKey) {
