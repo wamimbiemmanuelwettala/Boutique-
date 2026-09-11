@@ -61,7 +61,7 @@ async function fetchLiveProducts() {
         let data = [];
         const response = await fetch(WEB_APP_URL, {
             method: "GET",
-            redirect: "follow";
+            redirect: "follow"
         });
 
         if (!response.ok) {
@@ -69,7 +69,7 @@ async function fetchLiveProducts() {
         }
         
         data = await response.json();
-        data = Array.isArray(data) ? data.map(normalizeProduct): [];
+        data = Array.isArray(data) ? data.map(normalizeProduct) : [];
         
         allProducts = data;
         filteredProducts = data;
