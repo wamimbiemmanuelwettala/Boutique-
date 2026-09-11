@@ -9,7 +9,7 @@ const CART_STORAGE_KEY = "jireh_boutique_cart";
 const ORDER_MAX_RETRIES = 3;
 const ORDER_RETRY_DELAY_MS = 1500;
 
-const CLOTHES_CATEGORIES = "Dress", "Others", "Skirt", "Jampsuits", "Pants", "Tops",];
+const CLOTHES_CATEGORIES = ["Clothes", "Dresses", "Others", "Skirts", "Jampsuits", "Pants", "Tops"];
 
 let allProducts = [];
 let filteredProducts = [];
