@@ -60,7 +60,7 @@ async function fetchLiveProducts() {
     try {
         let data = [];
         const response = await fetch(WEB_APP_URL, {
-            method: "GET";
+            method: "GET",
             redirect: "follow";
         });
 
