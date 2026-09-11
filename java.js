@@ -59,7 +59,15 @@ async function fetchLiveProducts() {
 
     try {
         let data = [];
-        const response = await fetch(WEB_APP_URL);
+        const response = await fetch(WEB_APP_URL, {
+            method: "GET",
+            redirect: "follow"
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         data = await response.json();
         data = Array.isArray(data) ? data.map(normalizeProduct);
         
