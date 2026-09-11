@@ -192,10 +192,10 @@ function applyFilters(query) {
                 const c = (p.Category || "").toLowerCase();
                 return CLOTHES_CATEGORIES.some((cc) => c.includes(cc) || cc.includes(c));
             });
-        } else if (catLower === "bags") {
+        } else if (catLower === "Others") {
             list = list.filter((p) => {
                 const c = (p.Category || "").toLowerCase();
-                return c.includes("bag") || c.includes("accessor");
+                return c.includes("Others");
             });
         } else {
             list = list.filter((p) => (p.Category || "").toLowerCase().includes(catLower));
