@@ -69,7 +69,7 @@ async function fetchLiveProducts() {
         }
         
         data = await response.json();
-        data = Array.isArray(data) ? data.map(normalizeProduct);
+        data = Array.isArray(data) ? data.map(normalizeProduct) : [];
         
         allProducts = data;
         filteredProducts = data;
