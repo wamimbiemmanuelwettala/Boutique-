@@ -444,8 +444,7 @@ function isSameGroup(catA, catB) {
     const aClothes = CLOTHES_CATEGORIES.some((c) => catA.includes(c));
     const bClothes = CLOTHES_CATEGORIES.some((c) => catB.includes(c));
     if (aClothes && bClothes) return true;
-    if (catA.includes("shoe") && catB.includes("shoe")) return true;
-    if ((catA.includes("bag") || catA.includes("accessor")) && (catB.includes("bag") || catB.includes("accessor"))) return true;
+    if (catA.includes("Others") && catB.includes("Others")) return true;
     return false;
 }
 
