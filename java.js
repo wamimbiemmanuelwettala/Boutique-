@@ -1,4 +1,4 @@
-// ==========================================
+
 // CONFIGURATION
 // ==========================================
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzmCmPbPPUuMpCJzjH7omGayFy06WwO0E3eT8TUcw8tfrNzw02tctNhzgoTV4_fRZV0/exec";
