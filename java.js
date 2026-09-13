@@ -9,7 +9,7 @@ const CART_STORAGE_KEY = "jireh_boutique_cart";
 const ORDER_MAX_RETRIES = 3;
 const ORDER_RETRY_DELAY_MS = 1500;
 
-const CLOTHES_CATEGORIES = ["Clothes", "Dresses", "Others", "Skirts", "Jampsuits", "Pants", "Tops"];
+const CLOTHES_CATEGORIES = ["Clothes", "Dresses", "Others", "Skirts", "Jampsuits", "Pants", "Tops", "Bags"];
 
 let allProducts = [];
 let filteredProducts = [];
@@ -366,7 +366,7 @@ function isSameGroup(catA, catB) {
     const aClothes = CLOTHES_CATEGORIES.some((c) => catA.includes(c));
     const bClothes = CLOTHES_CATEGORIES.some((c) => catB.includes(c));
     if (aClothes && bClothes) return true;
-    if (catA.includes("shoe") && catB.includes("shoe")) return true;
+    if (catA.includes("Others") && catB.includes("Others")) return true;
     if (
         (catA.includes("bag") || catA.includes("accessor")) &&
         (catB.includes("bag") || catB.includes("accessor"))
@@ -655,9 +655,9 @@ function togglePaymentInstructions() {
                 <strong>MTN Money Steps:</strong><br>
                 1. Dial *165*1#<br>
                 2. Enter MTN Money Number: <strong>${MTN_MERCHANT_CODE}</strong>
-                <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Number</span><br>
+                <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Number<br>KALANZI NAGUDI BEATRICE</span><br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
-                <span id="copyAmtBtn" class="copy-item" onclick="copyToClipboard('${selectedPrice}', 'copyAmtBtn')">Copy Amount</span>
+                <span id="copyAmtBtn" class="copy-item" onclick="copyToClipboard('${selectedPrice}', 'copyAmtBtn')">Copy Amount<br>KALANZI NAGUDI BEATRICE</span>
             `;
         } else if (method === "Airtel Merchant") {
             instructionText.innerHTML = `
