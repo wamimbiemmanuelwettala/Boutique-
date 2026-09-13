@@ -2,9 +2,9 @@
 // CONFIGURATION
 // ==========================================
 const WEB_APP_URL = "/api/gas";
-const MTN_MERCHANT_CODE = "0786408437";
-const AIRTEL_MERCHANT_CODE = "0757754559";
-const BOUTIQUE_WHATSAPP = "256757754559";
+const MTN_MERCHANT_CODE = "0775375328";
+const AIRTEL_MERCHANT_CODE = "0704209195";
+const BOUTIQUE_WHATSAPP = "256704209195";
 const CART_STORAGE_KEY = "jireh_boutique_cart";
 const ORDER_MAX_RETRIES = 3;
 const ORDER_RETRY_DELAY_MS = 1500;
