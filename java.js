@@ -625,7 +625,7 @@ function openOrderModal(name, price) {
 
     const payMethod = document.getElementById("paymentMethod");
     if (payMethod) {
-        payMethod.value = ""MTN MoMo Pay";
+        payMethod.value = "MTN MoMo Pay";
         togglePaymentInstructions();
     }
 }
