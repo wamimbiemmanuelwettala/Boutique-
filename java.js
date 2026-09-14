@@ -658,7 +658,7 @@ function togglePaymentInstructions() {
                 <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Number<br></span><br>
                 KALANZI NAGUDI BEATRICE <br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
-                <span id="copyAmtBtn" class="copy-item" onclick="copyToClipboard('${selectedPrice}', 'copyAmtBtn')">Copy Amount<br>KALANZI NAGUDI BEATRICE</span>
+                <span id="copyAmtBtn" class="copy-item" onclick="copyToClipboard('${selectedPrice}', 'copyAmtBtn')">Copy Amount</span>
             `;
         } else if (method === "Airtel Merchant") {
             instructionText.innerHTML = `
