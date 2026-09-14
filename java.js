@@ -655,7 +655,8 @@ function togglePaymentInstructions() {
                 <strong>MTN Money Steps:</strong><br>
                 1. Atfer sending money, copy txid and paste in txid field in the order form<br>
                 2. MTN Money Number: <strong>${MTN_MERCHANT_CODE}</strong>
-                <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Number<br>KALANZI NAGUDI BEATRICE</span><br>
+                <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${MTN_MERCHANT_CODE}', 'copyCodeBtn')">Copy Number<br></span><br>
+                KALANZI NAGUDI BEATRICE <br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
                 <span id="copyAmtBtn" class="copy-item" onclick="copyToClipboard('${selectedPrice}', 'copyAmtBtn')">Copy Amount<br>KALANZI NAGUDI BEATRICE</span>
             `;
@@ -665,6 +666,7 @@ function togglePaymentInstructions() {
                 1. Atfer sending money, copy txid and paste in txid field in the order form<br>
                 2. Airtel Money Number: <strong>${AIRTEL_MERCHANT_CODE}</strong>
                 <span id="copyCodeBtn" class="copy-item" onclick="copyToClipboard('${AIRTEL_MERCHANT_CODE}', 'copyCodeBtn')">Copy Number</span><br>
+                KALANZI NAGUDI BEATRICE<br>
                 3. Amount: <strong>UGX ${selectedPrice.toLocaleString()}</strong>
                 <span id="copyAmtBtn" class="copy-item" onclick="copyToClipboard('${selectedPrice}', 'copyAmtBtn')">Copy Amount</span>
             `;
